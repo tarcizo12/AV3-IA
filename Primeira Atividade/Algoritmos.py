@@ -1,6 +1,7 @@
 qntDeDominiosAceitos = 2
 import random
 import numpy as np
+import Graficos
 
 
 def candidato(xbest, epsilon):
@@ -11,18 +12,40 @@ def candidato(xbest, epsilon):
 def restricao_caixa(x, limite_inferior, limite_superior):
     return np.maximum(limite_inferior, np.minimum(x, limite_superior))
 
+def getLimites(domino):
+    ehDominoSimples = isinstance(domino[0], int) 
+    ehDominioComposto = isinstance(domino[0], list)
+    
+    if(ehDominoSimples):
+        limiteSuperiorX1    = domino[1]
+        limiteInferiorX1    = domino[0]
+        limiteSuperiorX2    = domino[1]
+        limiteInferiorX2    = domino[0]
+
+        return limiteSuperiorX1,limiteInferiorX1, limiteSuperiorX2, limiteInferiorX2
+    
+    elif(ehDominioComposto):
+        limiteSuperiorX1    = domino[0][1]
+        limiteInferiorX1    = domino[0][0]
+        limiteSuperiorX2    = domino[0][1]
+        limiteInferiorX2    = domino[0][0]
+
+
+        return limiteSuperiorX1,limiteInferiorX1, limiteSuperiorX2, limiteInferiorX2
+
+
 def hillClimbing(
-        dominios, funcao, 
-        epsilon=0.1, maxit=1000, maxn=10, t_sem_melhoria=1000
+        dominios, funcao, ehMinimizacao,
+        epsilon=0.1, maxit=1000, maxn=10, t_sem_melhoria=1000,
     ):
     
     qntDeDominiosAceitos = 2
 
     if len(dominios) == qntDeDominiosAceitos:
-        limite_inferior, limite_superior = dominios[0], dominios[1]
-
-        x1 = np.random.uniform(low=limite_inferior, high=limite_superior)
-        x2 = np.random.uniform(low=limite_inferior, high=limite_superior)
+        limiteSuperiorX1,limiteInferiorX1, limiteSuperiorX2, limiteInferiorX2 = getLimites(dominios)
+        x1 = np.random.uniform(low=limiteInferiorX1, high=limiteSuperiorX1)
+        x2 = np.random.uniform(low=limiteInferiorX2, high=limiteSuperiorX2)
+        informacoesTreinamento = []
 
         # Inicialização
         xbest = [x1, x2]
@@ -39,19 +62,28 @@ def hillClimbing(
             while j < maxn:
                 j += 1
                 # Gera um candidato
-                x1_candidate = restricao_caixa(candidato(xbest[0], epsilon), limite_inferior, limite_superior)
-                x2_candidate = restricao_caixa(candidato(xbest[1], epsilon), limite_inferior, limite_superior)
+                x1_candidate = restricao_caixa(candidato(xbest[0], epsilon), limiteInferiorX1, limiteSuperiorX1)
+                x2_candidate = restricao_caixa(candidato(xbest[1], epsilon), limiteInferiorX2, limiteSuperiorX2)
 
                 y = [x1_candidate , x2_candidate]
 
                 # Avalia a função no candidato
                 F = funcao(y[0], y[1])
 
-                if F < fbest:
-                    xbest = y
-                    fbest = F
-                    melhoria = True
-                    break
+                print(F)
+
+                if ehMinimizacao:
+                    if F < fbest:
+                        xbest = y
+                        fbest = F
+                        melhoria = True
+                        break
+                else:
+                    if F > fbest:
+                        xbest = y
+                        fbest = F
+                        melhoria = True
+                        break
 
             i += 1
 
@@ -61,6 +93,7 @@ def hillClimbing(
             else:
                 t += 1
 
+        
         return xbest, fbest
 
     else:

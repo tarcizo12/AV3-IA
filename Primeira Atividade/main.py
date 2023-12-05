@@ -1,64 +1,65 @@
 import Algoritmos
 import Expressoes
+import Graficos
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt 
 
+VALOR_INVALIDO_MINIMIZACAO = 9999999999999999
+VALOR_INVALIDO_MAXIMIZACAO = -VALOR_INVALIDO_MINIMIZACAO
+R = 100
 
-VALOR_INVALIDO = 9999999999999999
-
-def plotarGraficoMinimizacaoHillClimbing(resultadoOtimoMinimiazacao):
-    # Criação do gráfico resultado minimizacao
-    x1 = np.linspace(-100, 100, 1000)
-    X1, X2 = np.meshgrid(x1, x1)
-    Y = Expressoes.expressaoPrimeiraQuestao(X1, X2)
-
-    fig = plt.figure()
-    ax = fig.add_subplot(projection='3d')
-    ax.plot_surface(X1, X2, Y, rstride=10, cstride=10, alpha=0.6, cmap='jet')
-
-    #for resultado_otimo in resultados_otimos_globais:
-    #    ax.scatter(resultado_otimo[0], resultado_otimo[1], resultado_otimo[2], marker='x', s=90, linewidth=3, color='green')
-
-    # Destaca o resultado ótimo global com uma cor diferente
-    ax.scatter(resultadoOtimoMinimiazacao[0][0], resultadoOtimoMinimiazacao[0][1], resultadoOtimoMinimiazacao[1], marker='x', s=90, linewidth=3, color='red', label='Ótimo Global')
-
-    ax.set_xlabel('x')
-    ax.set_ylabel('y')
-    ax.set_zlabel('z')
-    ax.set_title('f(x1, x2) - Hill Climbing')
-    ax.legend()
-
-    plt.tight_layout()
-    plt.show()
-
-def Main():
-  print('Trabalho de AV3')
-  R = 100
+def MainPrimeiraQuestao():
 
   primeiraExpressao = Expressoes.expressaoPrimeiraQuestao
 
-  dominioPrimeiraQuestao = [-100, 100]
+  dominioPrimeiraQuestao = [-100 , 100]
   dadosResultadosMinimizacaoHillClimbing = []
-  valorMinresultadoOtimoMinimiazacao = VALOR_INVALIDO
-  resultadoOtimoMinimiazacao = -1
-
+  valorMinresultadoOtimoMinimiazacao = VALOR_INVALIDO_MINIMIZACAO
   
   for i in range(R):
-    resultado = Algoritmos.hillClimbing(dominioPrimeiraQuestao, primeiraExpressao)
+    resultadoMinimizacaoHillClimbing = Algoritmos.hillClimbing(dominioPrimeiraQuestao, primeiraExpressao, True)
     
-    if resultado[1] < valorMinresultadoOtimoMinimiazacao:
-      valorMinresultadoOtimoMinimiazacao = resultado[1]
-      resultadoOtimoMinimiazacao = resultado
+    if resultadoMinimizacaoHillClimbing[1] < valorMinresultadoOtimoMinimiazacao:
+      valorMinresultadoOtimoMinimiazacao = resultadoMinimizacaoHillClimbing[1]
+      resultadoOtimoMinimiazacao = resultadoMinimizacaoHillClimbing
       
-    dadosResultadosMinimizacaoHillClimbing.append(resultado)
+    dadosResultadosMinimizacaoHillClimbing.append(resultadoMinimizacaoHillClimbing)
 
-  if(resultadoOtimoMinimiazacao == VALOR_INVALIDO):
+  if(resultadoOtimoMinimiazacao == VALOR_INVALIDO_MINIMIZACAO):
     raise ValueError("Não foi possivel determinar o valor otimo.")
 
 
   ##for resultado in dadosResultadosMinimizacaoHillClimbing: print("RESULTADOS DA RODADA: -> ", resultado)
   print("Resultado Otimo da minimização" , resultadoOtimoMinimiazacao)
-  plotarGraficoMinimizacaoHillClimbing(resultadoOtimoMinimiazacao)
+  Graficos.imprimirGraficoHillClimbingPrimeiraQuestao(resultadoOtimoMinimiazacao, primeiraExpressao)
 
-Main()  
+
+
+def MainSegundaQuestao():
+  segundaExpressao = Expressoes.expressaoSegundaQuestao
+  dominiosSegundaQuestao = [[-2,4] , [-2,5]]
+  dadosResultadosMaximizacaoHillClimbing = []
+  valorMaxResultadoOtimoMinimiazacaoHillClimbing = VALOR_INVALIDO_MAXIMIZACAO
+  
+  for i in range(R):
+    resultadoMaximizacaoHillClimbing = Algoritmos.hillClimbing(dominiosSegundaQuestao, segundaExpressao, False)
+    
+    if resultadoMaximizacaoHillClimbing[1] > valorMaxResultadoOtimoMinimiazacaoHillClimbing:
+      valorMaxResultadoOtimoMinimiazacaoHillClimbing = resultadoMaximizacaoHillClimbing[1]
+      resultadoOtimoMaximizacao = resultadoMaximizacaoHillClimbing
+      
+    dadosResultadosMaximizacaoHillClimbing.append(resultadoMaximizacaoHillClimbing)
+
+
+  if(resultadoOtimoMaximizacao == VALOR_INVALIDO_MAXIMIZACAO):
+    raise ValueError("Não foi possivel determinar o valor otimo.")
+
+
+  ##for resultado in dadosResultadosMinimizacaoHillClimbing: print("RESULTADOS DA RODADA: -> ", resultado)
+  print("Resultado Otimo da Maximizacao" , resultadoOtimoMaximizacao)
+  Graficos.imprimirGraficHillClimbingoSegundaQuestao(resultadoOtimoMaximizacao , segundaExpressao, dominiosSegundaQuestao)
+
+print('Trabalho de AV3')
+#MainPrimeiraQuestao()  
+MainSegundaQuestao()
