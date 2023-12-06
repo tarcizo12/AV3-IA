@@ -3,7 +3,13 @@ import matplotlib.pyplot as plt
 import Algoritmos
 
 
-def imprimirGrafico(resultadoOtimoMaximizacao, func, dominio, resultados):
+def imprimirGrafico(
+        resultadoOtimoMaximizacao, 
+        func, 
+        dominio, 
+        resultados,
+        algoritimoUsado
+    ):
     
     limiteSuperiorX1,limiteInferiorX1, limiteSuperiorX2, limiteInferiorX2 = Algoritmos.getLimites(dominio)
 
@@ -31,7 +37,7 @@ def imprimirGrafico(resultadoOtimoMaximizacao, func, dominio, resultados):
     ax.set_xlabel('x1')
     ax.set_ylabel('x2')
     ax.set_zlabel('f(x1, x2)')
-    ax.set_title('f(x1, x2) - Hill Climbing - Ponto Ótimo Global')
+    ax.set_title('f(x1, x2)- '+  algoritimoUsado +'- Ponto Ótimo Global')
     ax.legend()
 
     plt.tight_layout()

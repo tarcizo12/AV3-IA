@@ -17,7 +17,15 @@ def rodarAlgoritimoDeBusca(algoritimoDesejado):
   
   elif algoritimoDesejado == Algoritmos.ALGORITIMOS_IMPLEMENTADOS['localRandomSearch']:
 
-    return Algoritmos.local_random_search
+    return Algoritmos.localRandomSearch
+  
+  elif algoritimoDesejado == Algoritmos.ALGORITIMOS_IMPLEMENTADOS['globalRandomSearch']:
+
+    return Algoritmos.globalRandomSearch
+  
+  elif algoritimoDesejado == Algoritmos.ALGORITIMOS_IMPLEMENTADOS['simulatedAnnealing']:
+
+    return Algoritmos.simulatedAnnealing
 
 
   return
@@ -49,7 +57,7 @@ def MainPrimeiraQuestao(algoritimo):
 
   ##for resultado in dadosResultados: print("RESULTADOS DA RODADA: -> ", resultado)
   print("Resultado Otimo da minimização" , resultadoOtimoMinimiazacao)
-  Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, primeiraExpressao, dominioPrimeiraQuestao, dadosResultados)
+  Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, primeiraExpressao, dominioPrimeiraQuestao, dadosResultados, algoritimo)
 
 ##2. MAXIMIZAÇÃO
 def MainSegundaQuestao(algoritimo):
@@ -69,14 +77,14 @@ def MainSegundaQuestao(algoritimo):
       
     dadosResulados.append(resultadoMaximizacao)
 
-
+    print(resultadoMaximizacao)
   if(valorMaxResultadotimo == VALOR_INVALIDO_MAXIMIZACAO):
     raise ValueError("Não foi possivel determinar o valor otimo.")
 
 
   ##for resultado in dadosResultados: print("RESULTADOS DA RODADA: -> ", resultado)
   print("Resultado Otimo da Maximizacao" , resultadoOtimoMaximizacao)
-  Graficos.imprimirGrafico(resultadoOtimoMaximizacao , segundaExpressao, dominiosSegundaQuestao, dadosResulados)
+  Graficos.imprimirGrafico(resultadoOtimoMaximizacao , segundaExpressao, dominiosSegundaQuestao, dadosResulados, algoritimo)
 
 ##3. MINIMIZAÇÃO
 def MainTerceiraQuestao(algoritimo):
@@ -94,7 +102,8 @@ def MainTerceiraQuestao(algoritimo):
     if resultadoMinimizacao[1] < valorMinResultadoOtimo:
       valorMinResultadoOtimo = resultadoMinimizacao[1]
       resultadoOtimoMinimiazacao = resultadoMinimizacao
-      
+    
+    print(resultadoMinimizacao)
     dadosResultados.append(resultadoMinimizacao)
 
   if(valorMinResultadoOtimo == VALOR_INVALIDO_MINIMIZACAO):
@@ -103,7 +112,7 @@ def MainTerceiraQuestao(algoritimo):
 
   ##for resultado in dadosResultados: print("RESULTADOS DA RODADA: -> ", resultado)
   print("Resultado Otimo da minimização" , resultadoOtimoMinimiazacao)
-  Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, terceiraExpressao, dominiosTerceiraQuestao, dadosResultados)
+  Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, terceiraExpressao, dominiosTerceiraQuestao, dadosResultados, algoritimo)
 
 #4. MINIMIZACAO
 def MainQuartaQuestao(algoritimo):
@@ -122,6 +131,7 @@ def MainQuartaQuestao(algoritimo):
        valorMinResultadoOtimo = resultadoMinimizacao[1]
        resultadoOtimoMinimiazacao = resultadoMinimizacao
       
+     print(resultadoMinimizacao)
      dadosResultados.append(resultadoMinimizacao)
 
    if(valorMinResultadoOtimo == VALOR_INVALIDO_MINIMIZACAO):
@@ -130,7 +140,7 @@ def MainQuartaQuestao(algoritimo):
 
    ##for resultado in dadosResultados: print("RESULTADOS DA RODADA: -> ", resultado)
    print("Resultado Otimo da minimização" , resultadoOtimoMinimiazacao)
-   Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, quartaExpressao, dominiosQuartaQuestao, dadosResultados)
+   Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, quartaExpressao, dominiosQuartaQuestao, dadosResultados, algoritimo)
 
 #5. MINIMIZACAO
 def MainQuintaQuestao(algoritimo):
@@ -148,7 +158,8 @@ def MainQuintaQuestao(algoritimo):
      if resultadoMinimizacao[1] < valorMinResultadoOtimo:
        valorMinResultadoOtimo = resultadoMinimizacao[1]
        resultadoOtimoMinimiazacao = resultadoMinimizacao
-      
+    
+     print(resultadoMinimizacao)
      dadosResultados.append(resultadoMinimizacao)
 
    if(valorMinResultadoOtimo == VALOR_INVALIDO_MINIMIZACAO):
@@ -157,7 +168,7 @@ def MainQuintaQuestao(algoritimo):
 
    ##for resultado in dadosResultados: print("RESULTADOS DA RODADA: -> ", resultado)
    print("Resultado Otimo da minimização" , resultadoOtimoMinimiazacao)
-   Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, quintaExpressao, dominiosQuintaQuestao, dadosResultados)
+   Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, quintaExpressao, dominiosQuintaQuestao, dadosResultados, algoritimo)
 
 ##6. MAXIMIZACAO
 def MainSextaQuestao(algoritimo):
@@ -175,6 +186,7 @@ def MainSextaQuestao(algoritimo):
       valorMaxResultadotimo = resultadoMaximizacao[1]
       resultadoOtimoMaximizacao = resultadoMaximizacao
       
+    print(resultadoMaximizacao)
     dadosResulados.append(resultadoMaximizacao)
 
 
@@ -184,7 +196,7 @@ def MainSextaQuestao(algoritimo):
 
   ##for resultado in dadosResultados: print("RESULTADOS DA RODADA: -> ", resultado)
   print("Resultado Otimo da Maximizacao" , resultadoOtimoMaximizacao)
-  Graficos.imprimirGrafico(resultadoOtimoMaximizacao , sextaExpressao, dominiosSextaQuestao, dadosResulados)
+  Graficos.imprimirGrafico(resultadoOtimoMaximizacao , sextaExpressao, dominiosSextaQuestao, dadosResulados, algoritimo)
 
 #7. Minimização
 def MainSetimaQuestao(algoritimo):
@@ -213,7 +225,7 @@ def MainSetimaQuestao(algoritimo):
    for resultado in dadosResultados: print("RESULTADOS DA RODADA: -> ", resultado)
    print("Resultado Otimo da minimização" , resultadoOtimoMinimiazacao)
 
-   Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, setimaExpressao, dominiosSetimaQuestao, dadosResultados)
+   Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, setimaExpressao, dominiosSetimaQuestao, dadosResultados, algoritimo)
 
 #8. Minimização
 def MainOitavaQuestao(algoritimo):
@@ -242,7 +254,7 @@ def MainOitavaQuestao(algoritimo):
    for resultado in dadosResultados: print("RESULTADOS DA RODADA: -> ", resultado)
    print("Resultado Otimo da minimização" , resultadoOtimoMinimiazacao)
 
-   Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, oitavaExpressao, dominionsOitavaQuestao, dadosResultados)
+   Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, oitavaExpressao, dominionsOitavaQuestao, dadosResultados, algoritimo)
 
 print('Trabalho de AV3')
 
@@ -257,4 +269,9 @@ RODAR_QUESTAO = {
   8 : MainOitavaQuestao 
 }
 
-RODAR_QUESTAO[8]('hillClimbing')
+RODAR_QUESTAO[2]('simulatedAnnealing')
+
+    # 'hillClimbing' : 1,
+    # 'localRandomSearch': 2,
+    # 'globalRandomSearch': 3
+    # 'simulatedAnnealing': 4
