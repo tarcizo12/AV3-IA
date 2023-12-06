@@ -36,7 +36,7 @@ def getLimites(domino):
 
 def hillClimbing(
         dominios, funcao, ehMinimizacao,
-        epsilon=0.1, maxit=1000, maxn=10, t_sem_melhoria=1000,
+        epsilon=0.1, maxit=1000, maxn=5, t_sem_melhoria=1000,
     ):
     
     qntDeDominiosAceitos = 2
@@ -45,7 +45,6 @@ def hillClimbing(
         limiteSuperiorX1,limiteInferiorX1, limiteSuperiorX2, limiteInferiorX2 = getLimites(dominios)
         x1 = np.random.uniform(low=limiteInferiorX1, high=limiteSuperiorX1)
         x2 = np.random.uniform(low=limiteInferiorX2, high=limiteSuperiorX2)
-        informacoesTreinamento = []
 
         # Inicialização
         xbest = [x1, x2]
@@ -70,8 +69,6 @@ def hillClimbing(
                 # Avalia a função no candidato
                 F = funcao(y[0], y[1])
 
-                print(F)
-
                 if ehMinimizacao:
                     if F < fbest:
                         xbest = y
@@ -92,8 +89,6 @@ def hillClimbing(
                 t = 0
             else:
                 t += 1
-
-        
         return xbest, fbest
 
     else:

@@ -3,11 +3,14 @@ import matplotlib.pyplot as plt
 import Algoritmos
 
 
-def imprimirGraficoHillClimbingPrimeiraQuestao(resultadoOtimoMinimiazacao, func):
+def imprimirGraficoDominioSimples(resultadoOtimoMinimiazacao, func, dominio):
+    limiteSuperiorX1,limiteInferiorX1, limiteSuperiorX2, limiteInferiorX2 = Algoritmos.getLimites(dominio)
+
     # Criação do gráfico resultado minimizacao
-    x1 = np.linspace(-100, 100, 1000)
+    x1 = np.linspace(limiteInferiorX1, limiteSuperiorX2, 100)
     X1, X2 = np.meshgrid(x1, x1)
     Y = func(X1, X2)
+
 
     fig = plt.figure()
     ax = fig.add_subplot(projection='3d')
@@ -26,7 +29,7 @@ def imprimirGraficoHillClimbingPrimeiraQuestao(resultadoOtimoMinimiazacao, func)
 
 
 
-def imprimirGraficHillClimbingoSegundaQuestao(resultadoOtimoMaximizacao, func, dominio):
+def imprimirGraficoDominioComposto(resultadoOtimoMaximizacao, func, dominio):
     
     limiteSuperiorX1,limiteInferiorX1, limiteSuperiorX2, limiteInferiorX2 = Algoritmos.getLimites(dominio)
 
@@ -53,4 +56,5 @@ def imprimirGraficHillClimbingoSegundaQuestao(resultadoOtimoMaximizacao, func, d
 
     plt.tight_layout()
     plt.show()
-    
+
+
