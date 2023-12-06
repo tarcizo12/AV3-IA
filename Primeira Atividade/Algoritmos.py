@@ -261,7 +261,6 @@ def simulatedAnnealing(
     else:
         raise ValueError("A função deve ter os domínios definidos.")
 
-# A função de resfriamento exponencial é a mesma que utilizamos anteriormente
 def cooling_schedule(T):
     alpha = 0.9  # Fator de resfriamento
     return alpha * T
