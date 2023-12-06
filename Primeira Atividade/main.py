@@ -9,116 +9,252 @@ VALOR_INVALIDO_MINIMIZACAO = 9999999999999999
 VALOR_INVALIDO_MAXIMIZACAO = -VALOR_INVALIDO_MINIMIZACAO
 R = 100
 
+def rodarAlgoritimoDeBusca(algoritimoDesejado):
+  
+  if algoritimoDesejado == Algoritmos.ALGORITIMOS_IMPLEMENTADOS['hillClimbing']:
 
-##MINIMIZAÇÃO 
-def MainPrimeiraQuestao():
+    return Algoritmos.hillClimbing
+  
+  elif algoritimoDesejado == Algoritmos.ALGORITIMOS_IMPLEMENTADOS['localRandomSearch']:
+
+    return Algoritmos.local_random_search
+
+
+  return
+
+##1. MINIMIZAÇÃO 
+def MainPrimeiraQuestao(algoritimo):
 
   primeiraExpressao = Expressoes.expressaoPrimeiraQuestao
 
   dominioPrimeiraQuestao = [-100 , 100]
-  dadosResultadosMinimizacaoHillClimbing = []
-  valorMinresultadoOtimoMinimiazacao = VALOR_INVALIDO_MINIMIZACAO
+  dadosResultados = []
+  valorMinResultadoOtimo = VALOR_INVALIDO_MINIMIZACAO
   
   for i in range(R):
-    resultadoMinimizacaoHillClimbing = Algoritmos.hillClimbing(dominioPrimeiraQuestao, primeiraExpressao, True)
-    
-    if resultadoMinimizacaoHillClimbing[1] < valorMinresultadoOtimoMinimiazacao:
-      valorMinresultadoOtimoMinimiazacao = resultadoMinimizacaoHillClimbing[1]
-      resultadoOtimoMinimiazacao = resultadoMinimizacaoHillClimbing
-      
-    dadosResultadosMinimizacaoHillClimbing.append(resultadoMinimizacaoHillClimbing)
+    algoritimoAtual = rodarAlgoritimoDeBusca(Algoritmos.ALGORITIMOS_IMPLEMENTADOS[algoritimo])
 
-  if(resultadoOtimoMinimiazacao == VALOR_INVALIDO_MINIMIZACAO):
+    resultadoMinimizacao = algoritimoAtual(dominioPrimeiraQuestao, primeiraExpressao, True)
+    
+    if resultadoMinimizacao[1] < valorMinResultadoOtimo:
+      valorMinResultadoOtimo = resultadoMinimizacao[1]
+      resultadoOtimoMinimiazacao = resultadoMinimizacao
+    
+    print(resultadoMinimizacao)
+    dadosResultados.append(resultadoMinimizacao)
+
+  if(valorMinResultadoOtimo == VALOR_INVALIDO_MINIMIZACAO):
     raise ValueError("Não foi possivel determinar o valor otimo.")
 
 
-  ##for resultado in dadosResultadosMinimizacaoHillClimbing: print("RESULTADOS DA RODADA: -> ", resultado)
+  ##for resultado in dadosResultados: print("RESULTADOS DA RODADA: -> ", resultado)
   print("Resultado Otimo da minimização" , resultadoOtimoMinimiazacao)
-  Graficos.imprimirGraficoDominioSimples(resultadoOtimoMinimiazacao, primeiraExpressao, dominioPrimeiraQuestao)
+  Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, primeiraExpressao, dominioPrimeiraQuestao, dadosResultados)
 
-
-##MAXIMIZAÇÃO
-def MainSegundaQuestao():
+##2. MAXIMIZAÇÃO
+def MainSegundaQuestao(algoritimo):
   segundaExpressao = Expressoes.expressaoSegundaQuestao
   dominiosSegundaQuestao = [[-2,4] , [-2,5]]
-  dadosResultadosMaximizacaoHillClimbing = []
-  valorMaxResultadoOtimoMinimiazacaoHillClimbing = VALOR_INVALIDO_MAXIMIZACAO
+  dadosResulados = []
+  valorMaxResultadotimo = VALOR_INVALIDO_MAXIMIZACAO
   
   for i in range(R):
-    resultadoMaximizacaoHillClimbing = Algoritmos.hillClimbing(dominiosSegundaQuestao, segundaExpressao, False)
+    algoritimoAtual = rodarAlgoritimoDeBusca(Algoritmos.ALGORITIMOS_IMPLEMENTADOS[algoritimo])
 
-    if resultadoMaximizacaoHillClimbing[1] > valorMaxResultadoOtimoMinimiazacaoHillClimbing:
-      valorMaxResultadoOtimoMinimiazacaoHillClimbing = resultadoMaximizacaoHillClimbing[1]
-      resultadoOtimoMaximizacao = resultadoMaximizacaoHillClimbing
+    resultadoMaximizacao = algoritimoAtual(dominiosSegundaQuestao, segundaExpressao, False)
+
+    if resultadoMaximizacao[1] > valorMaxResultadotimo:
+      valorMaxResultadotimo = resultadoMaximizacao[1]
+      resultadoOtimoMaximizacao = resultadoMaximizacao
       
-    dadosResultadosMaximizacaoHillClimbing.append(resultadoMaximizacaoHillClimbing)
+    dadosResulados.append(resultadoMaximizacao)
 
 
-  if(resultadoOtimoMaximizacao == VALOR_INVALIDO_MAXIMIZACAO):
+  if(valorMaxResultadotimo == VALOR_INVALIDO_MAXIMIZACAO):
     raise ValueError("Não foi possivel determinar o valor otimo.")
 
 
-  ##for resultado in dadosResultadosMinimizacaoHillClimbing: print("RESULTADOS DA RODADA: -> ", resultado)
+  ##for resultado in dadosResultados: print("RESULTADOS DA RODADA: -> ", resultado)
   print("Resultado Otimo da Maximizacao" , resultadoOtimoMaximizacao)
-  Graficos.imprimirGraficoDominioComposto(resultadoOtimoMaximizacao , segundaExpressao, dominiosSegundaQuestao)
+  Graficos.imprimirGrafico(resultadoOtimoMaximizacao , segundaExpressao, dominiosSegundaQuestao, dadosResulados)
 
-##MINIMIZAÇÃO
-def MainTerceiraQuestao():
+##3. MINIMIZAÇÃO
+def MainTerceiraQuestao(algoritimo):
   terceiraExpressao = Expressoes.terceiraExpressao
   dominiosTerceiraQuestao = [-8,8]
 
-  dadosResultadosMinimizacaoHillClimbing = []
-  valorMinresultadoOtimoMinimiazacao = VALOR_INVALIDO_MINIMIZACAO
+  dadosResultados = []
+  valorMinResultadoOtimo = VALOR_INVALIDO_MINIMIZACAO
   
   for i in range(R):
-    resultadoMinimizacaoHillClimbing = Algoritmos.hillClimbing(dominiosTerceiraQuestao, terceiraExpressao, True)
-    
-    if resultadoMinimizacaoHillClimbing[1] < valorMinresultadoOtimoMinimiazacao:
-      valorMinresultadoOtimoMinimiazacao = resultadoMinimizacaoHillClimbing[1]
-      resultadoOtimoMinimiazacao = resultadoMinimizacaoHillClimbing
-      
-    dadosResultadosMinimizacaoHillClimbing.append(resultadoMinimizacaoHillClimbing)
-    print(resultadoOtimoMinimiazacao)
+    algoritimoAtual = rodarAlgoritimoDeBusca(Algoritmos.ALGORITIMOS_IMPLEMENTADOS[algoritimo])
 
-  if(resultadoOtimoMinimiazacao == VALOR_INVALIDO_MINIMIZACAO):
+    resultadoMinimizacao = algoritimoAtual(dominiosTerceiraQuestao, terceiraExpressao, True)
+    
+    if resultadoMinimizacao[1] < valorMinResultadoOtimo:
+      valorMinResultadoOtimo = resultadoMinimizacao[1]
+      resultadoOtimoMinimiazacao = resultadoMinimizacao
+      
+    dadosResultados.append(resultadoMinimizacao)
+
+  if(valorMinResultadoOtimo == VALOR_INVALIDO_MINIMIZACAO):
     raise ValueError("Não foi possivel determinar o valor otimo.")
 
 
-  ##for resultado in dadosResultadosMinimizacaoHillClimbing: print("RESULTADOS DA RODADA: -> ", resultado)
+  ##for resultado in dadosResultados: print("RESULTADOS DA RODADA: -> ", resultado)
   print("Resultado Otimo da minimização" , resultadoOtimoMinimiazacao)
-  Graficos.imprimirGraficoDominioSimples(resultadoOtimoMinimiazacao, terceiraExpressao, dominiosTerceiraQuestao)
+  Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, terceiraExpressao, dominiosTerceiraQuestao, dadosResultados)
 
+#4. MINIMIZACAO
+def MainQuartaQuestao(algoritimo):
+   quartaExpressao = Expressoes.quartaExpressao
+   dominiosQuartaQuestao = [-5.12, 5.12]
 
-#MINIMIZACAO
-def MainQuartaQuestao():
-  return
-  # quartaExpressao = Expressoes.quartaExpressao
-  # dominiosTerceiraQuestao = [-8,8]
-
-  # dadosResultadosMinimizacaoHillClimbing = []
-  # valorMinresultadoOtimoMinimiazacao = VALOR_INVALIDO_MINIMIZACAO
+   dadosResultados = []
+   valorMinResultadoOtimo = VALOR_INVALIDO_MINIMIZACAO
   
-  # for i in range(R):
-  #   resultadoMinimizacaoHillClimbing = Algoritmos.hillClimbing(dominiosTerceiraQuestao, quartaExpressao, True)
+   for i in range(R):
+     algoritimoAtual = rodarAlgoritimoDeBusca(Algoritmos.ALGORITIMOS_IMPLEMENTADOS[algoritimo])
+
+     resultadoMinimizacao = algoritimoAtual(dominiosQuartaQuestao, quartaExpressao, True)
     
-  #   if resultadoMinimizacaoHillClimbing[1] < valorMinresultadoOtimoMinimiazacao:
-  #     valorMinresultadoOtimoMinimiazacao = resultadoMinimizacaoHillClimbing[1]
-  #     resultadoOtimoMinimiazacao = resultadoMinimizacaoHillClimbing
+     if resultadoMinimizacao[1] < valorMinResultadoOtimo:
+       valorMinResultadoOtimo = resultadoMinimizacao[1]
+       resultadoOtimoMinimiazacao = resultadoMinimizacao
       
-  #   dadosResultadosMinimizacaoHillClimbing.append(resultadoMinimizacaoHillClimbing)
-  #   print(resultadoOtimoMinimiazacao)
+     dadosResultados.append(resultadoMinimizacao)
 
-  # if(resultadoOtimoMinimiazacao == VALOR_INVALIDO_MINIMIZACAO):
-  #   raise ValueError("Não foi possivel determinar o valor otimo.")
-
-
-  # ##for resultado in dadosResultadosMinimizacaoHillClimbing: print("RESULTADOS DA RODADA: -> ", resultado)
-  # print("Resultado Otimo da minimização" , resultadoOtimoMinimiazacao)
-  # Graficos.imprimirGraficoDominioSimples(resultadoOtimoMinimiazacao, quartaExpressao)
+   if(valorMinResultadoOtimo == VALOR_INVALIDO_MINIMIZACAO):
+     raise ValueError("Não foi possivel determinar o valor otimo.")
 
 
+   ##for resultado in dadosResultados: print("RESULTADOS DA RODADA: -> ", resultado)
+   print("Resultado Otimo da minimização" , resultadoOtimoMinimiazacao)
+   Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, quartaExpressao, dominiosQuartaQuestao, dadosResultados)
+
+#5. MINIMIZACAO
+def MainQuintaQuestao(algoritimo):
+   quintaExpressao = Expressoes.quintaExpressao
+   dominiosQuintaQuestao = [ [-2,2], [-1,3]]
+
+   dadosResultados = []
+   valorMinResultadoOtimo = VALOR_INVALIDO_MINIMIZACAO
+  
+   for i in range(R):
+     algoritimoAtual = rodarAlgoritimoDeBusca(Algoritmos.ALGORITIMOS_IMPLEMENTADOS[algoritimo])
+
+     resultadoMinimizacao = algoritimoAtual(dominiosQuintaQuestao, quintaExpressao, True)
+    
+     if resultadoMinimizacao[1] < valorMinResultadoOtimo:
+       valorMinResultadoOtimo = resultadoMinimizacao[1]
+       resultadoOtimoMinimiazacao = resultadoMinimizacao
+      
+     dadosResultados.append(resultadoMinimizacao)
+
+   if(valorMinResultadoOtimo == VALOR_INVALIDO_MINIMIZACAO):
+     raise ValueError("Não foi possivel determinar o valor otimo.")
+
+
+   ##for resultado in dadosResultados: print("RESULTADOS DA RODADA: -> ", resultado)
+   print("Resultado Otimo da minimização" , resultadoOtimoMinimiazacao)
+   Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, quintaExpressao, dominiosQuintaQuestao, dadosResultados)
+
+##6. MAXIMIZACAO
+def MainSextaQuestao(algoritimo):
+  sextaExpressao = Expressoes.sextaExpressao
+  dominiosSextaQuestao = [[-1,3] , [-1,3]]
+  dadosResulados = []
+  valorMaxResultadotimo = VALOR_INVALIDO_MAXIMIZACAO
+  
+  for i in range(R):
+    algoritimoAtual = rodarAlgoritimoDeBusca(Algoritmos.ALGORITIMOS_IMPLEMENTADOS[algoritimo])
+
+    resultadoMaximizacao = algoritimoAtual(dominiosSextaQuestao, sextaExpressao, False)
+
+    if resultadoMaximizacao[1] > valorMaxResultadotimo:
+      valorMaxResultadotimo = resultadoMaximizacao[1]
+      resultadoOtimoMaximizacao = resultadoMaximizacao
+      
+    dadosResulados.append(resultadoMaximizacao)
+
+
+  if(valorMaxResultadotimo == VALOR_INVALIDO_MAXIMIZACAO):
+    raise ValueError("Não foi possivel determinar o valor otimo.")
+
+
+  ##for resultado in dadosResultados: print("RESULTADOS DA RODADA: -> ", resultado)
+  print("Resultado Otimo da Maximizacao" , resultadoOtimoMaximizacao)
+  Graficos.imprimirGrafico(resultadoOtimoMaximizacao , sextaExpressao, dominiosSextaQuestao, dadosResulados)
+
+#7. Minimização
+def MainSetimaQuestao(algoritimo):
+   setimaExpressao = Expressoes.setimaExpressao
+   dominiosSetimaQuestao = [ [0,np.pi], [0,np.pi]]
+
+   dadosResultados = []
+   valorMinResultadoOtimo = VALOR_INVALIDO_MINIMIZACAO
+  
+   for i in range(R):
+     algoritimoAtual = rodarAlgoritimoDeBusca(Algoritmos.ALGORITIMOS_IMPLEMENTADOS[algoritimo])
+
+     resultadoMinimizacao = algoritimoAtual(dominiosSetimaQuestao, setimaExpressao, True)
+    
+     if resultadoMinimizacao[1] < valorMinResultadoOtimo:
+       valorMinResultadoOtimo = resultadoMinimizacao[1]
+       resultadoOtimoMinimiazacao = resultadoMinimizacao
+      
+     dadosResultados.append(resultadoMinimizacao)
+     print(resultadoOtimoMinimiazacao)
+
+   if(valorMinResultadoOtimo == VALOR_INVALIDO_MINIMIZACAO):
+     raise ValueError("Não foi possivel determinar o valor otimo.")
+
+
+   for resultado in dadosResultados: print("RESULTADOS DA RODADA: -> ", resultado)
+   print("Resultado Otimo da minimização" , resultadoOtimoMinimiazacao)
+
+   Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, setimaExpressao, dominiosSetimaQuestao, dadosResultados)
+
+#8. Minimização
+def MainOitavaQuestao(algoritimo):
+   oitavaExpressao = Expressoes.oitavaExpressao
+   dominionsOitavaQuestao = [ [-200,20], [-200,20]]
+
+   dadosResultados = []
+   valorMinResultadoOtimo = VALOR_INVALIDO_MINIMIZACAO
+  
+   for i in range(R):
+     algoritimoAtual = rodarAlgoritimoDeBusca(Algoritmos.ALGORITIMOS_IMPLEMENTADOS[algoritimo])
+
+     resultadoMinimizacao = algoritimoAtual(dominionsOitavaQuestao, oitavaExpressao, True)
+    
+     if resultadoMinimizacao[1] < valorMinResultadoOtimo:
+       valorMinResultadoOtimo = resultadoMinimizacao[1]
+       resultadoOtimoMinimiazacao = resultadoMinimizacao
+      
+     dadosResultados.append(resultadoMinimizacao)
+     print(resultadoOtimoMinimiazacao)
+
+   if(valorMinResultadoOtimo == VALOR_INVALIDO_MINIMIZACAO):
+     raise ValueError("Não foi possivel determinar o valor otimo.")
+
+
+   for resultado in dadosResultados: print("RESULTADOS DA RODADA: -> ", resultado)
+   print("Resultado Otimo da minimização" , resultadoOtimoMinimiazacao)
+
+   Graficos.imprimirGrafico(resultadoOtimoMinimiazacao, oitavaExpressao, dominionsOitavaQuestao, dadosResultados)
 
 print('Trabalho de AV3')
-MainPrimeiraQuestao()  
-#MainSegundaQuestao()
-#MainTerceiraQuestao()
+
+RODAR_QUESTAO = {
+  1 : MainPrimeiraQuestao,
+  2 : MainSegundaQuestao,
+  3 : MainTerceiraQuestao,
+  4 : MainQuartaQuestao,
+  5 : MainQuintaQuestao,
+  6 : MainSextaQuestao,
+  7 : MainSetimaQuestao, #-> Funcao estranha
+  8 : MainOitavaQuestao 
+}
+
+RODAR_QUESTAO[8]('hillClimbing')
