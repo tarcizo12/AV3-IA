@@ -4,7 +4,7 @@ import Algoritmos
 
 
 def imprimirGrafico(
-        resultadoOtimoMaximizacao, 
+        resultadoOtimo, 
         func, 
         dominio, 
         resultados,
@@ -32,7 +32,7 @@ def imprimirGrafico(
 
 
     # Plota o ótimo global de forma mais destacada
-    ax.scatter(resultadoOtimoMaximizacao[0][0], resultadoOtimoMaximizacao[0][1], resultadoOtimoMaximizacao[1], marker='x', s=200, linewidth=3, color='red', label='Ótimo Global')
+    ax.scatter(resultadoOtimo[0][0], resultadoOtimo[0][1], resultadoOtimo[1], marker='x', s=200, linewidth=3, color='red', label='Ótimo Global')
 
     ax.set_xlabel('x1')
     ax.set_ylabel('x2')

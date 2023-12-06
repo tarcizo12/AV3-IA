@@ -269,7 +269,7 @@ RODAR_QUESTAO = {
   8 : MainOitavaQuestao 
 }
 
-RODAR_QUESTAO[2]('simulatedAnnealing')
+RODAR_QUESTAO[7]('hillClimbing')
 
     # 'hillClimbing' : 1,
     # 'localRandomSearch': 2,
