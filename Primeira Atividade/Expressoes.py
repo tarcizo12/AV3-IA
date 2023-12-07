@@ -29,8 +29,8 @@ def sextaExpressao(x1,x2):
     return termo
 
 def setimaExpressao(x1, x2):
-    termo1 = -np.sin(x1) * np.power(np.sin((x1 * 2) / np.pi), 2) * 1e-10
-    termo2 = -np.sin(x2) * np.power(np.sin((2 * x2 * 2) / np.pi), 2) * 1e-10
+    termo1 = -np.sin(x1) * np.power(np.sin((x1 ** 2/np.pi)), 20) 
+    termo2 = -np.sin(x2) * np.power(np.sin((2 * x2 ** 2) / np.pi), 20) 
 
     resultado = termo1 + termo2
     return resultado

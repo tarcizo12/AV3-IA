@@ -121,6 +121,7 @@ def localRandomSearch(
             while j < maxn:
                 j += 1
                 # Gera um perturbação aleatória
+                sigma = round(random.uniform(0, 1), 3)
                 perturbacao = np.random.normal(0, sigma, size=2)
 
                 # Gera um candidato
@@ -150,7 +151,8 @@ def localRandomSearch(
             else:
                 t += 1
 
-        return xbest, fbest
+        return xbest, fbest, sigma
+
 
     else:
         raise ValueError("A função deve ter os domínios definidos.")
@@ -195,6 +197,7 @@ def globalRandomSearch(
     else:
         raise ValueError("A função deve ter os domínios definidos.")
 
+
 def simulatedAnnealing(
     dominios, funcao, ehMinimizacao,
     T0=100, maxit=1000, sigma=0.1, pm=0.5, eta=0.1, maxn=5, t_sem_melhoria=1000,
@@ -205,9 +208,7 @@ def simulatedAnnealing(
         limiteSuperiorX1, limiteInferiorX1, limiteSuperiorX2, limiteInferiorX2 = getLimites(dominios)
 
         # Inicialização
-        x1 = np.random.uniform(low=limiteInferiorX1, high=limiteSuperiorX1)
-        x2 = np.random.uniform(low=limiteInferiorX2, high=limiteSuperiorX2)
-        xbest = [x1,x2] 
+        xbest = np.random.uniform(low=limiteInferiorX1, high=limiteSuperiorX1), np.random.uniform(low=limiteInferiorX2, high=limiteSuperiorX2)
         fbest = funcao(*xbest)
 
         i = 0
@@ -221,6 +222,7 @@ def simulatedAnnealing(
             while j < maxn:
                 j += 1
                 # Gera um perturbação aleatória
+                sigma = round(random.uniform(0, 1), 3)
                 perturbacao = np.random.normal(0, sigma, size=2)
 
                 # Gera um candidato
@@ -254,13 +256,14 @@ def simulatedAnnealing(
                 t += 1
 
             # Escalona a temperatura
-            T = cooling_schedule(T)
+            T = esfriamento(T)
 
-        return xbest, fbest
+        return xbest, fbest, sigma
 
     else:
         raise ValueError("A função deve ter os domínios definidos.")
 
-def cooling_schedule(T):
-    alpha = 0.9  # Fator de resfriamento
-    return alpha * T
+# A função de resfriamento exponencial é a mesma que utilizamos anteriormente
+def esfriamento(T):
+    constante = 0.99  # Fator de resfriamento
+    return constante * T
